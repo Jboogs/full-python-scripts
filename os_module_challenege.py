@@ -14,12 +14,11 @@ import datetime
 
 # iterate through the desired directory using listdir() method
 
-def directory_finder():
-    directory = os.listdir('C:\\test_folder\\')
-    return directory
+
+directory = os.listdir('C:\\test_folder\\')
+
 
 def txt_finder():
-    directory = directory_finder()
     txt_files = []
     for file in directory:
         if file.endswith('.txt'):
@@ -68,7 +67,7 @@ def final_output():
     final_list = []
     for i in list1:
         print('Text file name and date modified: {}'.format(i))
-        
+      
 
 
 
