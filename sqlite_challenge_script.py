@@ -46,4 +46,5 @@ def query_function():
 
 
 if __name__ == '__main__':
+    add_data()
     query_function()
