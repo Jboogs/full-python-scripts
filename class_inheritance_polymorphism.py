@@ -56,11 +56,11 @@ class mushroom_swiss(Hamburger):
 
     
 
-
-Dub_bac_chee = double_bacon_ched_burger()
-print(Dub_bac_chee.cook_method())
-mushroom_swiss = mushroom_swiss()
-print(mushroom_swiss.cook_method())
+if __name__ == '__main__':
+    Dub_bac_chee = double_bacon_ched_burger()
+    print(Dub_bac_chee.cook_method())
+    mushroom_swiss = mushroom_swiss()
+    print(mushroom_swiss.cook_method())
 
 
 
