@@ -17,12 +17,17 @@ class ParentWindow(Frame): # parent class
         self.master.title('Check Files')
         # set size of the gui window
         self.master.geometry('500x130')
-        # set min width of each column
-        self.master.columnconfigure(0, minsize=20)
+        
         
         # set empty row above first entry box and browse button
         self.empty_space = tk.Frame(self.master)
         self.empty_space.grid(row=0, column=0, columnspan=4, pady=10)
+
+        
+
+        
+
+        
         
         # create the buttons
         # browse button 1
@@ -42,17 +47,17 @@ class ParentWindow(Frame): # parent class
 
         # close program button
         self.btn_close_program = tk.Button(self.master, text='Close Program', width=15)
-        self.btn_close_program.grid(row=3, column=3)
+        self.btn_close_program.grid(row=3, column=4)
 
         # entry boxes
 
         # entry box one
         self.ent_box_1 = tk.Entry(self.master)
-        self.ent_box_1.grid(row=1, column=1, padx=4, columnspan=3)
+        self.ent_box_1.grid(row=1, column=1, padx=6, columnspan=4, sticky='EW')
 
         # entry box two
         self.ent_box_2 = tk.Entry(self.master)
-        self.ent_box_2.grid(row=2, column=1, padx=4, columnspan=3)
+        self.ent_box_2.grid(row=2, column=1, padx=6, columnspan=3, sticky='EW')
         
 
 
