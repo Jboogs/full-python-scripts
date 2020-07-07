@@ -10,7 +10,6 @@
 import shutil
 import os
 from os import path
-import datetime as dt
 import time
 
 
@@ -29,13 +28,11 @@ with_in_24 = now - seconds_day
 
 def move_files():
     files = os.listdir(file_src)
-    for fname in files:
-        if path.getmtime(fname) < with_in_24:
-            shutil.copy(file_src+fname, file_dst)
-  
-    
+    for i in files:
+        if path.getmtime(file_src+i) > with_in_24:
+            shutil.copy(file_src+i, file_dst)
         
-            
+             
         
         
         
@@ -47,5 +44,6 @@ def move_files():
 
 if __name__ == '__main__':
     move_files()
+
     
 
