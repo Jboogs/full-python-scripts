@@ -39,6 +39,10 @@ class ParentWindow(Frame): # parent class
         self.lbl_copy_to = tk.Label(self.master, text='Directory to copy to:')
         self.lbl_copy_to.grid(row=2, column=0, padx=10, sticky='we')
 
+        # label to update if successful or not
+        self.lbl_update_blank = tk.Label(self.master, text='')
+        self.lbl_update_blank.grid(row=5, column=0)
+
         #choose directory buttons
         self.btn_choose_copy_from = tk.Button(self.master, text='Choose Directory')
         self.btn_choose_copy_from.grid(row=1, column=0, padx=10, sticky='we')
@@ -75,20 +79,23 @@ class ParentWindow(Frame): # parent class
     def choose_copy_from_direct(self): 
         direc_name_copy_from = fd.askdirectory(initialdir = "/")
         self.lst_copy_from.insert(END, direc_name_copy_from)
-        self.copy_from_directory.set(direc_name_copy_from)
+        self.copy_from_directory.set(direc_name_copy_from+'/')
+        self.lbl_update_blank.config(text='Copy from Directory Chosen')
         print(self.copy_from_directory.get())
     # define function to choose directory 2
     def choose_copy_to_direct(self): 
         direc_name_copy_to = fd.askdirectory(initialdir = "/")
         self.lst_copy_to.insert(END, direc_name_copy_to)
-        self.copy_to_directory.set(direc_name_copy_to)
+        self.copy_to_directory.set(direc_name_copy_to+'/')
+        self.lbl_update_blank.config(text='Copy to Directory Chosen')
         print(self.copy_to_directory.get())
     # define the function to clear lst boxes
     def clear_list_boxes(self):
         self.lst_copy_from.delete(0)
         self.lst_copy_to.delete(0)
-        self.copy_to_directory.set(None)
-        self.copy_from_directory.set(None)
+        self.copy_to_directory.set('')
+        self.copy_from_directory.set('')
+        self.lbl_update_blank.config(text='Selection Cleared')
 
     def copy_files(self):
         if self.copy_to_directory.get() == '' or self.copy_from_directory.get() == '':
@@ -97,17 +104,12 @@ class ParentWindow(Frame): # parent class
             seconds_day = 24*60*60
             now = time.time()
             with_in_24 = now - seconds_day
-            files = files = os.listdir(self.copy_from_directory.get())
+            files = os.listdir(self.copy_from_directory.get())
             for i in files:
-                shutil.copy(self.copy_from_directory.get(), self.copy_to_directory.get())
-            
-
-
-
-
-
-
-    
+                if path.getmtime(self.copy_from_directory.get()+i) > with_in_24:
+                    shutil.copy(self.copy_from_directory.get()+i, self.copy_to_directory.get())
+        self.lbl_update_blank.config(text='Files Copied Succesfully')
+        
 
     def cancel(self):
         self.master.destroy()
