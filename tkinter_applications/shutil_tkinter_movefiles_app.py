@@ -5,6 +5,7 @@
 #   that will be copied to another directory based off
 #   the mod time (last 24 hours) of the files in the directory
 #
+#   The move button moves files from one folder to another
 
 
 
@@ -57,9 +58,14 @@ class ParentWindow(Frame): # parent class
         self.btn_copy_files.grid(row=4, column=0, padx=10, sticky='we')
         self.btn_copy_files.configure(command=self.copy_files)
 
+        #move files
+        self.btn_move_files = tk.Button(self.master, text='Move Files')
+        self.btn_move_files.grid(row=4, column=1, padx=10, sticky='ew')
+        self.btn_move_files.configure(command=self.move_files)
+
         # clear list boxes button
         self.btn_clear = tk.Button(self.master, text='Clear selection')
-        self.btn_clear.grid(row=4, column=1, padx=10, sticky='ew')
+        self.btn_clear.grid(row=4, column=2, padx=10, sticky='ew')
         self.btn_clear.configure(command=self.clear_list_boxes)
         
 
@@ -72,7 +78,7 @@ class ParentWindow(Frame): # parent class
 
         #close application button/ with cancel command
         self.btn_close = tk.Button(self.master, text='Close')
-        self.btn_close.grid(row=4, column=2, pady=20, sticky='ew')
+        self.btn_close.grid(row=4, column=3, pady=20, sticky='ew')
         self.btn_close.configure(command=self.cancel)
 
     # define function for choosing directory 1
@@ -97,9 +103,20 @@ class ParentWindow(Frame): # parent class
         self.copy_from_directory.set('')
         self.lbl_update_blank.config(text='Selection Cleared')
 
+    # this will move files from one folder to another
+    def move_files(self):
+        if self.copy_to_directory.get() == '' or self.copy_from_directory.get() == '':
+            self.lbl_update_blank.config(text='Please select both options')
+        else:
+            files = os.listdir(self.copy_from_directory.get())
+            for i in files:
+                shutil.move(self.copy_from_directory.get()+i, self.copy_to_directory.get())
+            self.lbl_update_blank.config(text='This will move files, delete folder')
+    # this will copy all files with in a folder that have been altered or created with in the
+    # last 24 hours
     def copy_files(self):
         if self.copy_to_directory.get() == '' or self.copy_from_directory.get() == '':
-            print('Please make a selection for both directories')
+            self.lbl_update_blank.config(text='Please select both options')
         else:
             seconds_day = 24*60*60
             now = time.time()
@@ -108,7 +125,7 @@ class ParentWindow(Frame): # parent class
             for i in files:
                 if path.getmtime(self.copy_from_directory.get()+i) > with_in_24:
                     shutil.copy(self.copy_from_directory.get()+i, self.copy_to_directory.get())
-        self.lbl_update_blank.config(text='Files Copied Succesfully')
+            self.lbl_update_blank.config(text='Files Copied Succesfully')
         
 
     def cancel(self):
