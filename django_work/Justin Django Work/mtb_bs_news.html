@@ -1,0 +1,36 @@
+{% extends 'MountainBikeApp/mtb_base.html' %}
+
+{% load staticfiles %}
+
+{# background image for all pages #}
+{% block pagetop-css %}bg_index{% endblock %}
+
+{% block title %}Mountain Bike || News{% endblock %}
+
+{% block removable-pagetop %}
+
+<h1 class="text-white text-center h1 m-4">What's New In Mountain Biking?</h1>
+{% for news in news_content %}
+
+
+
+
+<div class="card mb-3 bg-secondary mx-auto border border-light custom-hover" style="max-width: 540px;">
+  <a href="{{ news.url }}" class="text-decoration-none">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="{{ news.img }}" class="card-img" alt="article image">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+          <h5 class="card-title text-white">{{ news.title }}<span class="text-danger">||</span><span class="text-warning"> {{ news.type_tag }}</span>
+          <span class="text-danger">||</span><span class="text-warning">{{ news.article_date }}</span> </h5>
+      </div>
+    </div>
+  </div>
+  </a>
+</div>
+
+{% endfor %}
+
+{% endblock %}

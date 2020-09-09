@@ -1,0 +1,83 @@
+{% extends 'MountainBikeApp/mtb_base.html' %}
+{% load staticfiles %}
+
+{# background image for all pages #}
+{% block pagetop-css %}bg_index{% endblock %}
+
+{% block title %}Mountain Bike || Trails{% endblock %}
+
+{% block removable-pagetop %}
+
+
+
+
+<!-- Page Title, clickable link to reset search -->
+<a href="{% url 'trailsearchapi' %}" class="text-decoration-none">
+<div class="border border-light col-6 mx-auto p-4 rounded m-4 custom-hover">
+  <h1 class="text-white text-center h1">Search Trail Networks</h1>
+</div>
+</a>
+
+
+{% if trail_data == None %}
+<!-- enter zipcode, will go through view where position API changes to a lat+lon position -->
+<form method="POST">
+    {% csrf_token %}
+  <div class="form-group col-6 mx-auto m-4">
+    <label for="zipcode_input" class="text-white mb-3">Enter Zip Code:</label>
+    <input type="text" class="form-control" id="zipcode_input" placeholder="zipcode" name="trail_zip">
+      <button type="submit" class="btn-form mx-auto mt-3">Search Trails</button>
+  </div>
+</form>
+  {% if error_msg %}
+<!-- Temp invalid zipcode error -->
+<p class="text-center text-white">{{ error_msg }}</p>
+
+  {% endif %}
+  {% else %}
+
+<!-- Information Display -->
+
+
+
+
+<div class="row justify-content-center">
+
+{% for data in trail_data.trails %}
+
+
+
+  <!-- card displaying information -->
+  <a href="{{ data.url }}" class="text-decoration-none"><div class="card m-3 p-1 border border-white text-white bg-dark" style="width: 20rem;">
+
+  <div class="card-body bg-dark custom-hover">
+    <p class="card-text">Network:<br> <span class="text-warning">{{ data.name }}</span><br>
+                          Difficulty: <span class="text-warning">{{ data.difficulty }}</span><br>
+      Length: <span class="text-warning">{{ data.length }} Miles</span><br>
+      Location: <span class="text-warning">{{ data.location }}</span><br>
+      </p>
+
+  </div>
+</div></a>
+
+
+{% if forloop.counter1|divisibleby:3 and not forloop.last %}
+</div><div class="row justify-content-center">
+
+{% endif %}
+
+
+
+  {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}
+
+
+
+{% block javascript %}
+{{ block.super }}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% endblock %}
